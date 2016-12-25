@@ -5,17 +5,17 @@
 // **Usage instructions:** can be found in the [Custom Tasks](#custom%20tasks) section or by running `grunt --help`.
 //
 // **Debug tip:** If you have any problems with any Grunt tasks, try running them with the `--verbose` command
-var _              = require('lodash'),
-    chalk          = require('chalk'),
-    fs             = require('fs-extra'),
-    path           = require('path'),
-    Promise        = require('bluebird'),
-    Git            = require('git-wrapper'),
+var _ = require('lodash'),
+    chalk = require('chalk'),
+    fs = require('fs-extra'),
+    path = require('path'),
+    Promise = require('bluebird'),
+    Git = require('git-wrapper'),
 
-    escapeChar     = process.platform.match(/^win/) ? '^' : '\\',
-    cwd            = process.cwd().replace(/( |\(|\))/g, escapeChar + '$1'),
+    escapeChar = process.platform.match(/^win/) ? '^' : '\\',
+    cwd = process.cwd().replace(/( |\(|\))/g, escapeChar + '$1'),
     buildDirectory = path.resolve(cwd, '.build'),
-    distDirectory  = path.resolve(cwd, '.dist'),
+    distDirectory = path.resolve(cwd, '.dist'),
 
     // ## Grunt configuration
 
@@ -62,8 +62,8 @@ var _              = require('lodash'),
                     }
                 },
                 express: {
-                    files:  ['core/ghost-server.js', 'core/server/**/*.js'],
-                    tasks:  ['express:dev'],
+                    files: ['core/ghost-server.js', 'core/server/**/*.js'],
+                    tasks: ['express:dev'],
                     options: {
                         spawn: false
                     }
@@ -239,7 +239,7 @@ var _              = require('lodash'),
                     options: {
                         onlyUpdated: true,
                         exclude: 'node_modules,bower_components,content,core/client,*test,*doc*,' +
-                        '*vendor,config.js,*buil*,.dist*,.idea,.git*,.travis.yml,.bower*,.editorconfig,.js*,*.md',
+                            '*vendor,config.js,*buil*,.dist*,.idea,.git*,.travis.yml,.bower*,.editorconfig,.js*,*.md',
                         extras: ['fileSearch']
                     }
                 }
@@ -428,7 +428,7 @@ var _              = require('lodash'),
         // in a "new" state.
         grunt.registerTask('cleanDatabase', function () {
             var done = this.async(),
-                models    = require('./core/server/models'),
+                models = require('./core/server/models'),
                 migration = require('./core/server/data/migration');
 
             migration.reset().then(function () {
@@ -501,8 +501,7 @@ var _              = require('lodash'),
             }
         });
 
-        grunt.registerTask('validate-all', 'Lint code and run all tests',
-            ['init', 'lint', 'test-all']);
+        grunt.registerTask('validate-all', 'Lint code and run all tests', ['init', 'lint', 'test-all']);
 
         // ### Test-All
         // **Main testing task**
@@ -512,31 +511,22 @@ var _              = require('lodash'),
         // `grunt test-all` runs all 6 test suites. See the individual sub tasks below for
         // details of each of the test suites.
         //
-        grunt.registerTask('test-all', 'Run tests for both server and client',
-            ['test-server', 'test-client']);
+        grunt.registerTask('test-all', 'Run tests for both server and client', ['test-server', 'test-client']);
 
-        grunt.registerTask('test-server', 'Run server tests',
-            ['test-routes', 'test-module', 'test-unit', 'test-integration']);
+        grunt.registerTask('test-server', 'Run server tests', ['test-routes', 'test-module', 'test-unit', 'test-integration']);
 
-        grunt.registerTask('test-client', 'Run client tests',
-            ['subgrunt:test']);
+        grunt.registerTask('test-client', 'Run client tests', ['subgrunt:test']);
 
         // ### Lint
         //
         // `grunt lint` will run the linter and the code style checker so you can make sure your code is pretty
-        grunt.registerTask('lint', 'Run the code style checks and linter for server',
-            ['jshint', 'jscs']
-        );
+        grunt.registerTask('lint', 'Run the code style checks and linter for server', ['jshint', 'jscs']);
 
-        grunt.registerTask('lint-all', 'Run the code style checks and linter for server and client',
-            ['lint', 'subgrunt:lint']
-        );
+        grunt.registerTask('lint-all', 'Run the code style checks and linter for server and client', ['lint', 'subgrunt:lint']);
 
         // ### test-setup *(utility)(
         // `grunt test-setup` will run all the setup tasks required for running tests
-        grunt.registerTask('test-setup', 'Setup ready to run tests',
-            ['clean:test', 'setTestEnv', 'ensureConfig']
-        );
+        grunt.registerTask('test-setup', 'Setup ready to run tests', ['clean:test', 'setTestEnv', 'ensureConfig']);
 
         // ### Unit Tests *(sub task)*
         // `grunt test-unit` will run just the unit tests
@@ -553,9 +543,7 @@ var _              = require('lodash'),
         // [should](https://github.com/visionmedia/should.js) to describe the tests in a highly readable style.
         // Unit tests do **not** touch the database.
         // A coverage report can be generated for these tests using the `grunt test-coverage` task.
-        grunt.registerTask('test-unit', 'Run unit tests (mocha)',
-            ['test-setup', 'mochacli:unit']
-        );
+        grunt.registerTask('test-unit', 'Run unit tests (mocha)', ['test-setup', 'mochacli:unit']);
 
         // ### Integration tests *(sub task)*
         // `grunt test-integration` will run just the integration tests
@@ -581,9 +569,7 @@ var _              = require('lodash'),
         // don't cause bugs. At present, pg often fails and is not officially supported.
         //
         // A coverage report can be generated for these tests using the `grunt test-coverage` task.
-        grunt.registerTask('test-integration', 'Run integration tests (mocha + db access)',
-            ['test-setup', 'mochacli:integration']
-        );
+        grunt.registerTask('test-integration', 'Run integration tests (mocha + db access)', ['test-setup', 'mochacli:integration']);
 
         // ### Route tests *(sub task)*
         // `grunt test-routes` will run just the route tests
@@ -602,18 +588,14 @@ var _              = require('lodash'),
         // The purpose of the route tests is to ensure that all of the routes (pages, and API requests) in Ghost
         // are working as expected, including checking the headers and status codes received. It is very easy and
         // quick to test many permutations of routes / urls in the system.
-        grunt.registerTask('test-routes', 'Run functional route tests (mocha)',
-            ['test-setup', 'mochacli:routes']
-        );
+        grunt.registerTask('test-routes', 'Run functional route tests (mocha)', ['test-setup', 'mochacli:routes']);
 
         // ### Module tests *(sub task)*
         // `grunt test-module` will run just the module tests
         //
         // The purpose of the module tests is to ensure that Ghost can be used as an npm module and exposes all
         // required methods to interact with it.
-        grunt.registerTask('test-module', 'Run functional module tests (mocha)',
-            ['test-setup', 'mochacli:module']
-        );
+        grunt.registerTask('test-module', 'Run functional module tests (mocha)', ['test-setup', 'mochacli:module']);
 
         // ### Coverage
         // `grunt coverage` will generate a report for the Unit Tests.
@@ -625,13 +607,9 @@ var _              = require('lodash'),
         //
         // Key areas for coverage are: helpers and theme elements, apps / GDK, the api and model layers.
 
-        grunt.registerTask('coverage', 'Generate unit and integration (mocha) tests coverage report',
-            ['test-setup', 'mocha_istanbul:coverage']
-        );
+        grunt.registerTask('coverage', 'Generate unit and integration (mocha) tests coverage report', ['test-setup', 'mocha_istanbul:coverage']);
 
-        grunt.registerTask('coverage-all', 'Generate unit and integration tests coverage report',
-            ['test-setup', 'mocha_istanbul:coverage_all']
-        );
+        grunt.registerTask('coverage-all', 'Generate unit and integration tests coverage report', ['test-setup', 'mocha_istanbul:coverage_all']);
 
         // #### Master Warning *(Utility Task)*
         // Warns git users not ot use the `master` branch in production.
@@ -642,8 +620,7 @@ var _              = require('lodash'),
             'Outputs a warning to runners of grunt prod, that master shouldn\'t be used for live blogs',
             function () {
                 console.log(chalk.red(
-                    'Use the ' + chalk.bold('stable') + ' branch for live blogs. '
-                    + chalk.bold.underline('Never') + ' master!'
+                    'Use the ' + chalk.bold('stable') + ' branch for live blogs. ' + chalk.bold.underline('Never') + ' master!'
                 ));
                 console.log('>', 'Always two there are, no more, no less. A master and a ' + chalk.bold('stable') + '.');
             });
@@ -677,29 +654,25 @@ var _              = require('lodash'),
         //
         // `bower` does have some quirks, such as not running as root. If you have problems please try running
         // `grunt init --verbose` to see if there are any errors.
-        grunt.registerTask('init', 'Prepare the project for development',
-            ['update_submodules', 'subgrunt:init', 'clean:tmp', 'default']);
+        grunt.registerTask('init', 'Prepare the project for development', ['update_submodules', 'subgrunt:init', 'clean:tmp', 'default']);
 
         // ### Build assets
         // `grunt build` - will build client assets (without updating the submodule)
         //
         // This task is identical to `grunt init`, except it does not build client dependencies
-        grunt.registerTask('build', 'Build client app',
-            ['subgrunt:init', 'clean:tmp', 'default']);
+        grunt.registerTask('build', 'Build client app', ['subgrunt:init', 'clean:tmp', 'default']);
 
         // ### Default asset build
         // `grunt` - default grunt task
         //
         // Build assets and dev version of the admin app.
-        grunt.registerTask('default', 'Build JS & templates for development',
-            ['subgrunt:dev']);
+        grunt.registerTask('default', 'Build JS & templates for development', ['subgrunt:dev']);
 
         // ### Production assets
         // `grunt prod` - will build the minified assets used in production.
         //
         // It is otherwise the same as running `grunt`, but is only used when running Ghost in the `production` env.
-        grunt.registerTask('prod', 'Build JS & templates for production',
-            ['subgrunt:prod', 'uglify:prod', 'master-warn']);
+        grunt.registerTask('prod', 'Build JS & templates for production', ['subgrunt:prod', 'uglify:prod', 'master-warn']);
 
         // ### Live reload
         // `grunt dev` - build assets on the fly whilst developing
@@ -712,8 +685,7 @@ var _              = require('lodash'),
         // frontend code changes.
         //
         // Note that the current implementation of watch only works with casper, not other themes.
-        grunt.registerTask('dev', 'Dev Mode; watch files and restart server on changes',
-           ['bgShell:client', 'express:dev', 'watch']);
+        grunt.registerTask('dev', 'Dev Mode; watch files and restart server on changes', ['bgShell:client', 'express:dev', 'watch']);
 
         // ### Contributors
         // `grunt contributors:<tag-name>` - generate a comma-separated list of contributors for a Ghost release.
@@ -724,7 +696,9 @@ var _              = require('lodash'),
             var getContribList = require('gh-contrib-list'),
                 oauthKey = process.env.GITHUB_OAUTH_KEY,
                 thisGit = new Git(),
-                clientGit = new Git({'git-dir': path.resolve(cwd + '/core/client/.git')}),
+                clientGit = new Git({
+                    'git-dir': path.resolve(cwd + '/core/client/.git')
+                }),
                 done = this.async();
 
             function mergeContribs(first, second) {
@@ -746,8 +720,16 @@ var _              = require('lodash'),
             }
 
             return Promise.props({
-                ghost: Promise.promisify(thisGit.exec, {context: thisGit})('rev-list', {n: 1}, this.args),
-                admin: Promise.promisify(clientGit.exec, {context: clientGit})('rev-list', {n: 1}, this.args)
+                ghost: Promise.promisify(thisGit.exec, {
+                    context: thisGit
+                })('rev-list', {
+                    n: 1
+                }, this.args),
+                admin: Promise.promisify(clientGit.exec, {
+                    context: clientGit
+                })('rev-list', {
+                    n: 1
+                }, this.args)
             }).then(function (props) {
                 return Promise.join(
                     getContribList({
@@ -811,7 +793,7 @@ var _              = require('lodash'),
                     dest: '<%= paths.releaseBuild %>/'
                 });
 
-                grunt.task.run(['init', 'prod', 'clean:release',  'shell:dedupe', 'shell:prune', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
+                grunt.task.run(['init', 'prod', 'clean:release', 'shell:dedupe', 'shell:prune', 'shell:shrinkwrap', 'copy:release', 'compress:release']);
             }
         );
     };
